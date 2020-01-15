@@ -1,0 +1,21 @@
+/**
+ * Created by vshcherba on 1/14/2020.
+ */
+
+.THIS button .inner-button {
+    font-size: .75rem;
+    padding-top: .5rem;
+    line-height: 18px;
+    margin-bottom: 10px;
+}
+
+.THIS button {
+    display: block;
+    float: left;
+    padding-top: 10px;
+    border: none;
+    width: 220px;
+}
+
+
+
