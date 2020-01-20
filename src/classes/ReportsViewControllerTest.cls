@@ -5,17 +5,10 @@
 @isTest
 private with sharing class ReportsViewControllerTest {
 
-    @isTest(SeeAllData=true) static void getCustomSettingsTest() {
-        test.startTest();
-        List<String> reports = ReportsViewController.getCustomSettings();
-        test.stopTest();
-        System.assertNotEquals(null, reports);
-    }
-
-    @isTest(SeeAllData=true) static void getReportsTest() {
-        test.startTest();
+    @isTest static void getReportsTest() {
+        Test.startTest();
         String json = ReportsViewController.getReports();
-        test.stopTest();
+        Test.stopTest();
         System.assertNotEquals(null, json);
     }
 }

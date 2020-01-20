@@ -3,25 +3,31 @@
  */
 
 public with sharing class ReportsViewController {
-    @testVisible
-    private static List<String> getCustomSettings() {
-        List<String> reportsNames = new List<String>();
-        for(MyReports__c cs : MyReports__c.getAll().values()) {
-            if(cs.Name != null) {
-                reportsNames.add(cs.Name);
+
+    private static Map<String, String> getReportsInfo() {
+        Map<String, String> reportsInfo = new Map<String, String>();
+        for (MyReports__c report : MyReports__c.getAll().values()) {
+            if (report.Name != null && report.Icon__c != null) {
+                reportsInfo.put(report.Name, report.Icon__c);
             }
         }
-        return reportsNames;
+        return reportsInfo;
     }
 
     @AuraEnabled
     public static String getReports() {
-        List<String> reportsNames =  getCustomSettings();
+        Map<String, String> reportsInfo = getReportsInfo();
         List<ReportWrapper> reports = new List<ReportWrapper>();
-        if(reportsNames != null) {
-            for(Report rep : [SELECT Id, Name, Format FROM Report LIMIT 1000]) {
-                ReportWrapper rw = new ReportWrapper(rep.Id, rep.Name, rep.Format);
-                reports.add(rw);
+        if (!reportsInfo.isEmpty()) {
+            for (Report rep : [
+                    SELECT Id, Name, Format
+                    FROM Report
+                    WHERE Name IN :reportsInfo.keySet()
+                    LIMIT 1000
+            ]) {
+                String iconName = reportsInfo.get(rep.Name);
+                ReportWrapper reportWrapper = new ReportWrapper(rep.Id, rep.Name, rep.Format, iconName);
+                reports.add(reportWrapper);
             }
         }
         return JSON.serialize(reports);

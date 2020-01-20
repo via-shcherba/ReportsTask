@@ -7,22 +7,23 @@
 
     <aura:attribute name="reports" type="List"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:navigation aura:id="navService"/>
 
     <lightning:card title="{!$Label.c.myReports}">
         <p class="slds-p-horizontal_small">
             <aura:if isTrue="{!if(v.reports.length > 0, true, false)}">
-                <div>
-                    <aura:iteration items="{!v.reports}" var="report" indexVar="ind">
-                        <lightning:button
-                                aura:id="button" name="{!ind}"
-                                onclick="{!c.clickOnButton}"
-                        >
-                            <lightning:icon iconName="standard:report"/>
+
+                <aura:iteration items="{!v.reports}" var="report" indexVar="index">
+                    <lightning:button
+                            aura:id="button" name="{!index}"
+                            onclick="{!c.clickOnButton}"
+                    >
+                        <lightning:icon iconName="{!report.iconName}"/>
         <p class="inner-button">{!report.reportName + ' - ' + report.format}</p>
         </lightning:button>
 
         </aura:iteration>
-        </div>
+
         <div style="clear:both;"></div>
         <aura:set attribute="else">
             {!$Label.c.notAvailable}
